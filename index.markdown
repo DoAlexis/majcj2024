@@ -1,4 +1,5 @@
 ---
+layout: default
 title: History’s Plot Twist: Cinematic genre, diversity, and popularity as the ultimate mirror
 ---
 
