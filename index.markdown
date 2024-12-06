@@ -1,5 +1,6 @@
 ---
 layout: default
+title: History’s Plot Twist: Cinematic genre, diversity, and popularity as the ultimate mirror
 ---
 
 *In the world of cinema, movies often do more than entertain—they capture and reflect the 
