@@ -1,16 +1,29 @@
 ---
-# Feel free to add content and custom Front Matter to this file.
-# To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
-
-layout: default
+title: History’s Plot Twist: Cinematic genre, diversity, and popularity as the ultimate mirror
 ---
 
-*Beer, standing as the world's most widely consumed alcoholic drink, takes the third spot in overall beverage consumption, surpassed only by water and tea [^1]. However, as a beverage enjoyed worldwide, we believe that beer isn’t just a drink - but a cultural guide. People everywhere sip on this frothy concoction, and the way they enjoy it can vary from place to place and change as the years go by. In this study, we aim to find out exactly what these different preferences are and their evolutions! More specifically, we will identify the beer preferences for each location and analyze how their evaluation and spreading behave over time. Parallel to that, we will zoom out a bit and investigate the "global" beer preferences, which will give us further insights into what the evolution of beer preferences signifies on a larger scale. Furthermore, we want to see which locations exhibit "similar" beer preferences, and how these similarities change over time. In the end, we will try to understand how these similarities and differences are influenced by two factors: the geographical distances and the differences in wealth.*
+*In the world of cinema, movies often do more than entertain—they capture and reflect the 
+societal pulse of their time. This project seeks to understand how genre complexity and cast 
+diversity in films can serve as mirrors of global events and cultural shifts through ratings. By 
+analyzing data from CMU, IMDb, and Wikidata sources, we examine how diverse 
+demographic representations and complex genre combinations influence ratings and reveal 
+trends that resonate with audiences across different eras and regions. This research is 
+motivated by the want to fulfill our beliefs that region and time impact population’s 
+perceptions of the media they consume. By viewing films through this lens, filmmakers, 
+critics, and enthusiasts alike can better understand cinema’s role as both a reflection and an 
+influencer of the world’s shifting social and cultural landscape.*
 
-### The dataset 
-
-The data used for this study is collected from two different beer rating websites, namely BeerAdvocate and RateBeer. The dataset coming from each website includes information about different beers, their corresponding breweries, users, and the ratings that users gave to the beers. We first combined the two datasets into a single dataset and then filtered out the years and locations that offered too small of data to allow for reliable conclusions. In the end, our study is concerned only with the below-given time range and locations:
-
-* Time range: years from 2006 to 2017, including 2006 and 2017.
-
-* Location set: All states of the U.S. except for South Dakota (49 states), Iceland, Denmark, Canada, Norway, Sweden, Belgium, New Zealand, Ireland, Finland, Scotland, Australia, Netherlands, Luxembourg, England, Poland, Croatia, Northern Ireland, Spain, Italy, Germany, France and Brazil.
+## Research Questions:  
+- How do film ratings vary across regions and genres, and how has this evolved over 
+time? 
+- What is the influence of cast demographics – ethnicity and gender – on ratings, and do 
+these effects differ by region? 
+- How have traditional genres blended into complex combinations, and how do regional 
+preferences respond to these trends? 
+- Can we identify time periods of historical or cultural events that coincide with 
+significant rating shifts in movies, and for what cast demographics and cinematic 
+subjects? 
+- Can we predict which genre and demographic combinations will likely achieve the 
+highest ratings in each region?  
+- Which regions show the most consistent preferences in terms of genre and actor 
+demographics? 
