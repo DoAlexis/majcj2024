@@ -1,5 +1,7 @@
 ---
 title: "History’s Plot Twist: Cinematic genre, diversity, and popularity as the ultimate mirror"
+description: "Explore how film diversity and genre complexity reflect and shape global cultural trends through data-driven insights."
+button: Discover our data story !
 ---
 
 *In the world of cinema, movies often do more than entertain—they capture and reflect the 
