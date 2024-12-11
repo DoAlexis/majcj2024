@@ -21,6 +21,7 @@
     }
 }
 
+
 .page-header {
     height: 100vh;
     height: 100dvh;
@@ -42,10 +43,10 @@
             top: -5%;
             left: -5%;
             background-image: url("{{ '/assets/images/background-tile.png' | relative_url }}");
-            background-size: 550px;
-            background-repeat: repeat;
-            filter: blur(2.75px);
-            -webkit-filter: blur(2.75px);
+            background-repeat: no-repeat; 
+            background-size: cover; 
+            background-position: center center; 
+           
         }
 
         .background::before {
@@ -63,135 +64,8 @@
             );
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); } // Adjust the pixel value for more or less movement
-        }
 
-        @mixin beer-style(
-            $top,
-            $left,
-            $height: calc(1440px/7),
-            $width: calc(342px/7),
-            $blur-effect: 1px,
-            $brightness: 55%,
-            $contrast: 90%,
-            $animation-duration: 3s,
-            $animation-delay: 0s
-        ) {
-            background-size: 100%;
-            background-repeat: no-repeat;
-            height: $height;
-            width: $width;
-            position: absolute;
-            top: $top;
-            left: $left;
-            filter: brightness($brightness) contrast($contrast) blur($blur-effect);
-            -webkit-filter: brightness($brightness) contrast($contrast) blur($blur-effect);;
-            animation: float 3s ease-in-out infinite;
-            animation-duration: $animation-duration;
-            animation-delay: $animation-delay;
-        }
-
-        .bottle-1 {
-            @include beer-style(
-              $top: 20vh,
-              $left: 15vw,
-              $animation-duration: 3.5s,
-              $animation-delay: 1.5s,
-              $height: calc(1440px/5),
-              $width: calc(342px/5),
-              $contrast: 100%,
-              $brightness: 90%,
-              $blur-effect: .75px
-            );
-            background-image: url("{{ '/assets/images/bottle-1.png' | relative_url }}");
-        }
-
-        .bottle-2 {
-            @include beer-style($top: 80vh, $left: 65vw, $animation-duration: 3s, $animation-delay: 0.5s);
-            background-image: url("{{ '/assets/images/bottle-2.png' | relative_url }}");
-        }
-
-        .bottle-3 {
-            @include beer-style($top: 40vh, $left: 80vw, $animation-duration: 5s, $animation-delay: 1s);
-            background-image: url("{{ '/assets/images/bottle-3.png' | relative_url }}");
-        }
-
-        .bottle-4 {
-            @include beer-style(
-              $top: 10vh,
-              $left: 50vw,
-              $animation-duration: 4.5s,
-              $animation-delay: 0.75s,
-              $height: calc(1440px/6),
-              $width: calc(342px/6),
-              $contrast: 90%,
-              $brightness: 75%,
-              $blur-effect: .75px
-            );
-            background-image: url("{{ '/assets/images/bottle-4.png' | relative_url }}");
-        }
-
-        .bottle-5 {
-            @include beer-style(
-              $top: 60vh,
-              $left: 35vw,
-              $animation-duration: 3.5s,
-              $animation-delay: 0s,
-              $height: calc(1440px/6),
-              $width: calc(342px/6),
-              $contrast: 90%,
-              $brightness: 75%,
-              $blur-effect: .75px
-            );
-            background-image: url("{{ '/assets/images/bottle-5.png' | relative_url }}");
-        }
-
-        .glass-1 {
-            @include beer-style($top: 75vh, $left: 10vw, $animation-duration: 4s, $animation-delay: 1.25s);
-            background-image: url("{{ '/assets/images/glass-1.png' | relative_url }}");
-        }
-
-        .glass-2 {
-            @include beer-style(
-              $top: 10vh,
-              $left: 80vw,
-              $animation-duration: 3.5s,
-              $animation-delay: 0.5s,
-              $height: calc(304px/1.5),
-              $width: calc(115px/1.5),
-              $contrast: 100%,
-              $brightness: 100%,
-              $blur-effect: .75px
-            );
-            background-image: url("{{ '/assets/images/glass-2.png' | relative_url }}");
-        }
-
-        .glass-3 {
-            @include beer-style($top: 70vh, $left: 50vw, $animation-duration: 4.5s, $animation-delay: 1s);
-            background-image: url("{{ '/assets/images/glass-3.png' | relative_url }}");
-        }
-
-        .glass-4 {
-            @include beer-style($top: 20vh,$left: 30vw, $animation-duration: 3s, $animation-delay: 0.25s);
-            background-image: url("{{ '/assets/images/glass-4.png' | relative_url }}");
-        }
-
-        .glass-5 {
-            @include beer-style(
-              $top: 70vh,
-              $left: 60vw,
-              $animation-duration: 3.5s,
-              $animation-delay: 0.75s,
-              $height: calc(304px/1.5),
-              $width: calc(115px/1.5),
-              $contrast: 100%,
-              $brightness: 100%,
-              $blur-effect: .75px
-            );
-            background-image: url("{{ '/assets/images/glass-5.png' | relative_url }}");
-        }
+       
     }
 
     .header-container {
@@ -229,7 +103,7 @@
         left: 50%;
         width: 20px;
         height: 20px;
-        background-color: rgba(255, 240, 192, 0.5);
+        background-color: rgba(246, 200, 48, 0.5);
         border-radius: 50%;
         opacity: 0;
         animation: floatUp .5s forwards;
