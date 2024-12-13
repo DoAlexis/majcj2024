@@ -52,7 +52,7 @@ demographics?
 <div id="genre-map">
     <iframe id="plot-frame" 
             src="{{ '/assets/plots/map-drama.html' | relative_url }}" 
-            style="width: 1200px; height: 1000px; border: none;">
+            style="width: 100vw; height: 110vh; border: none;">
     </iframe>
 </div>
 
