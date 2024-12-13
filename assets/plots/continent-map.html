@@ -1,0 +1,142 @@
+<div>
+    <label for="genre-dropdown">Select Genre:</label>
+    <select id="genre-dropdown" multiple>
+       
+    </select>
+</div>
+
+<!-- Plot container for the world map -->
+<div id="world-map" style="width: 100%; height: 600px;"></div>  
+
+<script>
+    // Fetch and process the movie data
+    fetch("{{ '/assets/plots/movieData.json' | relative_url }}")  
+        .then(response => response.json()) 
+        .then(data => {
+            console.log("Movie Data:", data);  
+
+            // Populate genres dynamically
+            const genres = [...new Set(data.map(item => item.Genre))]; 
+            const genreSelect = document.getElementById('genre-dropdown');  
+            genres.forEach(genre => {
+                const option = document.createElement('option');
+                option.value = genre;
+                option.textContent = genre;
+                genreSelect.appendChild(option);
+            });
+
+            // Call function to generate map
+            plotWorldMap(data);  
+        })
+        .catch(error => {
+            console.error("Error fetching movie data:", error);  
+        });
+
+    // Function to plot the world map with movie data
+    function plotWorldMap(data) {
+        // Mapping countries to ISO codes
+        const country_to_iso = {
+            'United States of America': 'USA',
+            'Israel': 'ISR',
+            'Australia': 'AUS',
+            'France': 'FRA',
+            'Hungary': 'HUN',
+            'United Kingdom': 'GBR',
+            'Germany': 'DEU',
+            'Italy': 'ITA',
+            'India': 'IND',
+            'Brazil': 'BRA',
+            'South Korea': 'KOR',
+            'Japan': 'JPN',
+            'Argentina': 'ARG',
+            'Poland': 'POL',
+            'Mexico': 'MEX',
+            'Canada': 'CAN',
+            'Czech Republic': 'CZE',
+            'Spain': 'ESP',
+            'Sweden': 'SWE',
+            // Add other country mappings as needed...
+        };
+
+        // Function to filter movie data by selected genres
+        function filterDataByGenres(data, selectedGenres) {
+            if (selectedGenres.length === 0) {
+                return data;
+            }
+
+            // Filter the data for the selected genres
+            return data.filter(item => selectedGenres.includes(item.Genre));
+        }
+
+        // Get selected genres from the dropdown
+        const genreSelect = document.getElementById('genre-dropdown');  
+        let selectedGenres = Array.from(genreSelect.selectedOptions).map(option => option.value);
+
+        // Process the data to map countries to ISO codes and filter out any missing ISO codes
+        const processedData = filterDataByGenres(data, selectedGenres).map(item => {
+            return {
+                Year: item.Year,
+                Country: item.Country,
+                Region: item.Region,
+                MeanRating: item["Mean Rating"],
+                ISOAlpha: country_to_iso[item.Country] || null 
+            };
+        }).filter(item => item.ISOAlpha !== null); 
+
+        console.log("Processed Movie Data:", processedData);
+
+        // Create a DataFrame-like structure for Plotly
+        const df = processedData;
+
+        // Plotly choropleth map configuration
+        const fig = {
+            data: [{
+                type: 'choropleth',
+                locations: df.map(item => item.ISOAlpha),  
+                color: df.map(item => item.MeanRating),   
+                hoverinfo: 'location+z',  
+                colorscale: 'RdBu',        
+                colorbar: { title: 'Mean Rating' },
+                animation_frame: df.map(item => item.Year), 
+            }],
+            layout: {
+                title: {
+                    text: 'Mean Movie Rating by Country (Year-wise)',
+                    font: {
+                        size: 24,
+                        family: 'Arial',
+                        weight: 'bold'
+                    },
+                    x: 0.5,
+                    y: 0.95,
+                    xanchor: 'center',
+                    yanchor: 'top'
+                },
+                geo: {
+                    showcoastlines: true,
+                    coastlinecolor: 'Black',
+                    showland: true,
+                    landcolor: 'whitesmoke',
+                    projection: { type: 'natural earth' }
+                },
+                width: 1000,
+                height: 800,
+                margin: { t: 50, b: 50, l: 50, r: 50 },
+            }
+        };
+
+        // Create the choropleth map using Plotly
+        Plotly.newPlot('world-map', fig.data, fig.layout);  
+    }
+
+    // Add event listener to the genre dropdown to update the map when genres change
+    document.getElementById('genre-dropdown').addEventListener('change', function() {  
+        // Fetch the movie data again and replot the map with selected genres
+        fetch("{{ '/assets/plots/movieData.json' | relative_url }}")
+            .then(response => response.json())
+            .then(data => {
+                plotWorldMap(data); 
+            })
+            .catch(error => console.error("Error re-fetching movie data:", error));
+    });
+</script>

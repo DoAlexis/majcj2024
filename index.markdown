@@ -29,3 +29,18 @@ subjects?
 highest ratings in each region?  
 - Which regions show the most consistent preferences in terms of genre and actor 
 demographics? 
+
+## The Movie race
+
+{% include_relative assets/plots/bar-race.html %}
+
+## The movie race 2
+<iframe src="{{ '/assets/plots/plot.html' | relative_url }}" width="100%" height="600px" style="border:none;"></iframe>
+
+
+## The Movie distribution
+
+{% include_relative assets/plots/movie-distribution.html %}
+
+## The Map
+{% include_relative assets/plots/continent-map.html %}

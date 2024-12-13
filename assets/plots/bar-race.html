@@ -1,0 +1,204 @@
+<div id="bar-race-chart" style="width: 100%; height: 600px;"></div>
+
+<!-- Select bar for controlling the year -->
+<label for="year-select">Select Year:</label>
+<select id="year-select">
+    <!-- Options will be populated dynamically -->
+</select>
+
+<!-- Stop/Go Button -->
+<button id="stop-go-button" style="margin-top: 10px;">⏸️ Pause the race</button>
+
+<!-- Restart Button -->
+<button id="restart-button" style="margin-top: 10px;">🏁 Restart the race</button>
+
+<script>
+    let interval;
+    let currentFrame = 0;
+    let isPlaying = true;
+    let frames;
+    let data;
+
+    // Fetch the preprocessed data from the JSON file
+    fetch("{{ '/assets/plots/bar_race_data.json' | relative_url }}")
+        .then(response => response.json())
+        .then(fetchedData => {
+            data = fetchedData;
+
+            // Process data for Plotly
+            createBarRaceChart(data);
+        });
+
+    function createBarRaceChart(data) {
+        // Extract unique years and genres
+        const years = [...new Set(data.map(item => item.Year))].sort();
+        const genres = [...new Set(data.map(item => item.Genre))];
+
+        // Custom color palette for genres
+        const customPalette = {
+            "drama": "#9dcee2",
+            "comedy": "#4091c9",
+            "thriller": "#ef3c2d",
+            "romance": "#f29479",
+            "world cinema": "#fedfd4",
+            "action": "#033270",
+            "crime fiction": "#1368aa",
+            "indie": "#f26a4f",
+            "action/adventure": "#65010c",
+            "adventure": "#cb1b16"
+        };
+
+        // Populate the year select dropdown
+        const yearSelect = document.getElementById("year-select");
+        years.forEach(year => {
+            const option = document.createElement("option");
+            option.value = year;
+            option.text = year;
+            yearSelect.appendChild(option);
+        });
+
+        // Prepare traces for each year
+        frames = years.map(year => {
+            const frameData = data.filter(item => item.Year === year);
+
+            return {
+                name: year.toString(),
+                data: [{
+                    type: "bar",
+                    orientation: "h",
+                    x: frameData.map(d => d.Count),
+                    y: frameData.map(d => d.Genre),
+                    marker: {
+                        color: frameData.map(d => customPalette[d.Genre] || "#000000") 
+                    },
+                    text: frameData.map(d => d.Count),
+                    textposition: "inside",
+                    textfont: {
+                        size: 12
+                    }
+                }]
+            };
+        });
+
+        // Initial frame data
+        const initialData = frames[0].data;
+
+        // Layout configuration (initial x-axis range is wide enough)
+        const layout = {
+            title: {
+                text: "Number of Movies Produced per Genre Over Time",
+                font: {
+                    size: 24,
+                    family: "Arial",
+                    weight: "bold"
+                },
+                x: 0.5,
+                xanchor: "center",
+                yanchor: "top"
+            },
+            xaxis: {
+                title: "Number of Movies",
+                range: [0, Math.max(...data.map(d => d.Count)) + 10],
+                showgrid: true
+            },
+            yaxis: {
+                title: "Genre",
+                automargin: true
+            },
+            template: "plotly_white"
+        };
+
+        // Plot the animated bar chart
+        Plotly.newPlot("bar-race-chart", initialData, layout, { responsive: true });
+
+        // Add animation function
+        function animateChart() {
+            if (currentFrame < frames.length) {
+                const frame = frames[currentFrame];
+                const frameMaxCount = Math.max(...frame.data[0].x); 
+                const xaxisRange = [0, frameMaxCount + 10]; 
+
+                // Update the plot with new x-axis range dynamically
+                Plotly.animate("bar-race-chart", {
+                    data: frame.data,
+                    layout: {
+                        xaxis: {
+                            range: xaxisRange 
+                        }
+                    }
+                }, {
+                    transition: {
+                        duration: 500,
+                        easing: "linear"
+                    },
+                    frame: {
+                        duration: 500,
+                        redraw: false
+                    }
+                });
+                currentFrame++;
+            } else {
+                clearInterval(interval);
+            }
+        }
+
+        // Start animation
+        interval = setInterval(() => {
+            if (isPlaying) {
+                animateChart();
+            }
+        }, 1000); 
+
+        // Add event listener to stop/go button
+        document.getElementById("stop-go-button").addEventListener("click", () => {
+            isPlaying = !isPlaying;
+            const button = document.getElementById("stop-go-button");
+            button.textContent = isPlaying ? "⏸️ Pause the race" : "▶️ Resume the race";
+        });
+
+        // Add event listener to year select dropdown
+        yearSelect.addEventListener("change", function() {
+            const selectedYear = parseInt(yearSelect.value);
+            const selectedFrame = frames.find(frame => frame.name === selectedYear.toString());
+            Plotly.react("bar-race-chart", selectedFrame.data, layout);
+
+            // Calculate the max count for the selected year and update the x-axis range
+            const selectedFrameMaxCount = Math.max(...selectedFrame.data[0].x);
+            const updatedXaxisRange = [0, selectedFrameMaxCount + 10];
+
+            // Update the layout with the new x-axis range
+            const updatedLayout = {
+                ...layout,
+                xaxis: {
+                    ...layout.xaxis,
+                    range: updatedXaxisRange
+                }
+            };
+
+            // React to the selected year and adjust the chart
+            Plotly.react("bar-race-chart", selectedFrame.data, updatedLayout);
+
+            // Reset the animation frame to the selected year
+            currentFrame = years.indexOf(selectedYear);
+            if (!isPlaying) {
+                // If the animation is paused, resume the animation from the selected year
+                animateChart();
+            }
+        });
+
+        // Add event listener to restart button
+        document.getElementById("restart-button").addEventListener("click", () => {
+            // Reset currentFrame and restart the animation
+            currentFrame = 0;
+            isPlaying = true;
+            const button = document.getElementById("stop-go-button");
+            button.textContent = "⏸️ Pause the race"; 
+            animateChart(); 
+            interval = setInterval(() => {
+                if (isPlaying) {
+                    animateChart();
+                }
+            }, 1000); 
+        });
+    }
+</script>
