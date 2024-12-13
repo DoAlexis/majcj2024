@@ -30,11 +30,8 @@ highest ratings in each region?
 - Which regions show the most consistent preferences in terms of genre and actor 
 demographics? 
 
-## The Movie race
 
-{% include_relative assets/plots/bar-race.html %}
-
-## The movie race 2
+## The movie race 
 <iframe src="{{ '/assets/plots/plot.html' | relative_url }}" width="100%" height="600px" style="border:none;"></iframe>
 
 
@@ -43,4 +40,30 @@ demographics?
 {% include_relative assets/plots/movie-distribution.html %}
 
 ## The Map
-{% include_relative assets/plots/continent-map.html %}
+<div>
+    <label for="genreSelect">Select Genre:</label>
+    <select id="genreSelect">
+        <option value="drama">Drama</option>
+         <option value="action">Action</option>
+    </select>
+</div>
+
+
+<div id="genre-map">
+    <iframe id="plot-frame" 
+            src="{{ '/assets/plots/map-drama.html' | relative_url }}" 
+            style="width: 1200px; height: 1000px; border: none;">
+    </iframe>
+</div>
+
+<script>
+    // Event listener for genre selection
+    document.getElementById('genreSelect').addEventListener('change', function() {
+        const selectedGenre = this.value; 
+        const iframe = document.getElementById('plot-frame');
+        
+        // Update iframe source to load the selected genre's plot
+        iframe.src = `{{ '/assets/plots/map-' | relative_url }}${selectedGenre}.html`;
+    });
+</script>
+
