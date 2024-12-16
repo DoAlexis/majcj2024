@@ -1,0 +1,58 @@
+
+<div id="plot-container-all" style="width: 100%; height: 600px;"></div>
+
+<script>
+    // Fetch the preprocessed data from the JSON file
+    fetch("{{ '/assets/js/plots/movie_data_all.json' | relative_url }}")
+        .then(response => response.json())
+        .then(data => {
+            // Call the plot function with the data
+            plotAllGenres(data);
+        })
+        .catch(error => {
+            console.error("Error fetching data:", error);
+        });
+
+    // Function to plot the histogram for all genres
+    function plotAllGenres(data) {
+        // Extract release years from the data
+        const releaseYears = data.map(item => item.ReleaseDate);
+
+    
+        // Prepare the histogram plot
+        const plotData = [{
+            type: 'histogram',
+            x: releaseYears,
+            histnorm: 'count',
+            opacity: 0.7,
+            marker: {
+                color: 'blue',
+                line: { width: 1, color: 'black' }
+            },
+            nbinsx: 30 // Number of bins
+        }];
+
+        // Configure the layout
+        const layout = {
+            title: "Movies Production Distribution by Release Date: All Genres, All Countries",
+            xaxis: {
+                title: "Year of Production",
+                showgrid: true,
+                tickmode: 'array',
+                tickvals: [1900, 1920, 1940, 1960, 1980, 2000], // Custom tick positions
+                ticktext: ['1900', '1920', '1940', '1960', '1980', '2000'], // Custom tick labels
+                range: [1900, 2020] // X-axis range
+            },
+            yaxis: {
+                title: "Number of Movies Produced",
+                showgrid: true
+            },
+            template: "plotly_white",
+            height: 600,
+            margin: { t: 50, b: 50, l: 50, r: 50 }
+        };
+
+        // Render the plot in the container
+        Plotly.newPlot("plot-container-all", plotData, layout);
+    }
+</script>

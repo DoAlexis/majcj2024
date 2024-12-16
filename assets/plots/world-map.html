@@ -1,0 +1,34 @@
+<div>
+    <label for="genreSelect">Select Genre:</label>
+    <select id="genreSelect">
+        <option value="drama">Drama</option>
+        <option value="action">Action</option>
+        <option value="comedy">Comedy</option>
+        <option value="thriller">Thriller</option>
+        <option value="romance">Romance</option>
+        <option value="world cinema">World cinema</option>
+        <option value="crime fiction">Crime fiction</option>
+        <option value="indie">Indie</option>
+        <option value="action/adventure">Action/Adventure</option>
+        <option value="adventure">Adventure</option>
+    </select>
+</div>
+
+
+<div id="genre-map">
+    <iframe id="plot-frame" 
+            src="{{ '/assets/plots/map/map-drama.html' | relative_url }}" 
+            style="width: 100%; height: 105vh; border: none;">
+    </iframe>
+</div>
+
+<script>
+    // Event listener for genre selection
+    document.getElementById('genreSelect').addEventListener('change', function() {
+        const selectedGenre = this.value; 
+        const iframe = document.getElementById('plot-frame');
+        
+        // Update iframe source to load the selected genre's plot
+        iframe.src = `{{ '/assets/plots/map/map-' | relative_url }}${selectedGenre}.html`;
+    });
+</script>

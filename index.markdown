@@ -31,39 +31,35 @@ highest ratings in each region?
 demographics? 
 
 
-## The movie race 
-<iframe src="{{ '/assets/plots/plot.html' | relative_url }}" width="100%" height="600px" style="border:none;"></iframe>
+# Introduction (time - genres - countries -----> ratings)
 
 
-## The Movie distribution
+## The World Map
+
+{% include_relative assets/plots/world-map.html %}
+
+## The Movie distribution 1
+
+{% include_relative assets/plots/movie-distribution-all.html %}
+
+## The Movie distribution 2
 
 {% include_relative assets/plots/movie-distribution.html %}
 
-## The Map
-<div>
-    <label for="genreSelect">Select Genre:</label>
-    <select id="genreSelect">
-        <option value="drama">Drama</option>
-         <option value="action">Action</option>
-    </select>
-</div>
+## The Movie Race
 
+<iframe src="{{ '/assets/plots/bar-race.html' | relative_url }}"  style=" height: 110vh; width: 100%; border: none;"></iframe> 
 
-<div id="genre-map">
-    <iframe id="plot-frame" 
-            src="{{ '/assets/plots/map-drama.html' | relative_url }}" 
-            style="width: 100vw; height: 110vh; border: none;">
-    </iframe>
-</div>
+## The Heatmap
 
-<script>
-    // Event listener for genre selection
-    document.getElementById('genreSelect').addEventListener('change', function() {
-        const selectedGenre = this.value; 
-        const iframe = document.getElementById('plot-frame');
-        
-        // Update iframe source to load the selected genre's plot
-        iframe.src = `{{ '/assets/plots/map-' | relative_url }}${selectedGenre}.html`;
-    });
-</script>
+<iframe src ="{{ '/assets/plots/heatmap-ratings.html' | relative_url }}" style= " height: 120vh; width: 100%; border:none;"> </iframe>
 
+## Ethnicity 
+
+<iframe src ="{{ '/assets/plots/ethnic-percentages.html' | relative_url }}" style = "height:105vh; width: 100%; border:none;"> </iframe>
+
+<iframe src ="{{ '/assets/plots/in-out.html' | relative_url }}" style = "height:105vh; width: 100%; border:none;"> </iframe>
+
+<iframe src ="{{ '/assets/plots/languages.html' | relative_url }}" style = "height:105vh; width: 100%; border:none;"> </iframe>
+
+<iframe src ="{{ '/assets/plots/historical-events.html' | relative_url }}" style = "height:105vh; width: 100%; border:none;"> </iframe>

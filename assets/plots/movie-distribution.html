@@ -9,7 +9,7 @@
 
 <script>
     // Fetch the preprocessed data from the JSON file
-    fetch("{{ '/assets/plots/movie_data.json' | relative_url }}")
+    fetch("{{ '/assets/js/plots/movie_data.json' | relative_url }}")
         .then(response => response.json())
         .then(data => {
             // Filter the data by genres of interest
@@ -20,9 +20,6 @@
 
             // Filter data to include only selected genres
             const filteredData = data.filter(item => selectedGenres.includes(item.Genre.toLowerCase()));
-
-            // Log the filtered data
-            console.log('Filtered Data:', filteredData);
 
             // Process data for Plotly
             initializeDropdown(filteredData);
@@ -43,7 +40,6 @@
         // Set up an event listener for dropdown selection
         genreSelect.addEventListener("change", function () {
             const selectedGenres = Array.from(genreSelect.selectedOptions).map(option => option.value);
-            console.log('Selected Genres:', selectedGenres);  
             plotSelectedGenres(selectedGenres, data);
         });
 
@@ -60,7 +56,6 @@
             
             // Get the release years 
             const releaseYears = genreMovies.map(item => item.ReleaseDate);  
-            console.log(`Release Date for ${genre} movie:`, releaseYears); 
             
             return {
                 type: 'histogram',
@@ -77,9 +72,7 @@
             };
         });
 
-        // Log the plot data before rendering
-        console.log('Plot Data:', plotData);
-
+        
         // Layout configuration
         const layout = {
             title: "Movies Distribution by Release Date",
