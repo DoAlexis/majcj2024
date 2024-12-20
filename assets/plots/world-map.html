@@ -33,12 +33,14 @@
 </div>
 
 <script>
+    const baseUrl = "{{ '/assets/plots/map/' | relative_url }}";
+
     // Event listener for genre selection
     document.getElementById('genreSelect').addEventListener('change', function() {
-        const selectedGenre = this.value; 
+        const selectedGenre = this.value;
         const iframe = document.getElementById('plot-frame');
         
         // Update iframe source to load the selected genre's plot
-        iframe.src = `{{ '/assets/plots/map/map-' | relative_url }}${selectedGenre}.html`;
+        iframe.src = `${baseUrl}map-${selectedGenre}.html`;
     });
 </script>
