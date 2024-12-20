@@ -117,15 +117,25 @@ To probe deeper, we employed autoregressive integrated moving average (ARIMA) mo
 
 # Characters Data for Additional Insights
 
-Given the need for increased features to accurately predict movie ratings, let’s turn the spotlight to the stars themselves: the actors.They are, after all, the heart of every great movie.  We asked ourselves, who are these actors, where do they come from, and most importantly, does it really matter? To dive into these questions, we explored the movie character data. This analysis began by examining the number of actors in each film and then delved into the diversity of casts across different regions. 
+Given the need for increased features to accurately predict movie ratings, let’s turn the spotlight to the stars themselves: the actors. They are, after all, the heart of every great movie.  We asked ourselves, who are these actors, where do they come from, and most importantly, does considering actors as characteristics of movies really matter in impacting movie ratings? To dive into these questions, we explored the movie character dataset. This analysis began by examining the number of actors in each film and then their diversity in terms of ethnicity and gender.  
 
 ## The More the Merrier? 
 
 <p>
 We began by looking at the distribution of the number of actor’s in a movie and their potential impact on ratings. Unsurprisingly, in our dataset, the number of actors in a movie rarely exceeds 20, given the size limits of filming sites and more likely budget constraints. But does having more actors increase the chances of higher ratings? At a Pearson correlation of 0.0355 and a p-value < 0.001,  the relationship between the number of actors and ratings is weak yet significant. This leads us to consider actor number as a feature to include in our rating prediction model.  
+
 </p>
 <p>
-To further inspect actor characteristics in movies, we move onto considering the demographics of the actors. By enriching the provided character data, we managed to populate 77.17% of our movie’s characters data with ethnicities, which provides a sufficiently large foundation for analysis. Given the scale of ethnicities possible, we further categorized ethnicities into cultural groups: North Americans, Oceanians, Native Americans, West and East Europeans, Indians, Remaining Asia, South Americans, North Africans and Middle Easterns. This clustering reflects not only geographical boundaries but also the cultural and historical dynamics that shape the cinematic landscape.
+To further inspect actor characteristics in movies, we move onto considering the demographics of their casts. By enriching the provided character data, we managed to populate 77.17% of our movie’s characters, and thereby actors, data with nationalities and ethnicities. Analyzing the former first, we sought to understand if regions typically cast from their own talent pool as to indicate if movies from those regions are diverse for actor cultural backgrounds.
+
+</p>
+<iframe src ="{{ '/assets/plots/in-out.html' | relative_url }}" style = "height:100vh; width: 100%; border:none;"> </iframe>
+
+<p>
+From the above visualization, we can see that most regions show a strong preference for in-region talent. In fact, Asia, India, and Eastern Europe favor local actors overwhelmingly, with over 90% of their casts being from the same region. Even North America, known for Hollywood's global reach, leans toward in-region actors, though not as strongly. Compare this to Bollywood, which remains almost exclusively centered on Indian actors, emphasizing its cultural specificity/target audience. This preference for in-region talent could impact movie ratings as audience's may be influenced by their cultural and regional connection and favoritism to the cast. However, in-region casting alone is not a strong predictor for movie ratings, and a more granular approach with ethnicities is employed.
+</p>
+<p>
+The ethnicities we were able to populate of our movies’ actors can be categorized into cultural groups: North Americans, Oceanians, Native Americans, West and East Europeans, Indians, Remaining Asia, South Americans, North Africans and Middle Easterns. This clustering reflects not only geographical boundaries but also the cultural and historical dynamics that shape the cinematic landscape.
 </p>
 
 <iframe src ="{{ '/assets/plots/ethnic-percentages.html' | relative_url }}" style = "height:100vh; width: 100%; border:none;"> </iframe>
@@ -160,7 +170,6 @@ To further uncover the nuanced factors influencing movie ratings, we crafted a n
 
 The final feature that we included for predicting a movie’s characteristics to predict its audience ratings was a movie’s Genre Complexity Score. This feature quantifies the intricacy of a movie’s genre composition, assigning a score equal to the number of genres it spans from our top 20 list of genres considered. A straightforward single-genre film earns the baseline score of 1, while a genre-blending epic boasting 10 genres achieves the maximum score of 10. Like so, we aim to include the richness of a movie’s genre and its influences on audiences.
 
-<iframe src ="{{ '/assets/plots/genres-dist-rating.html' | relative_url }}" style = "height:100vh; width: 100%; border:none;"> </iframe>
 
 # The Final Predictor
 
@@ -190,7 +199,6 @@ Beyond the expected, diversity metrics emerge as significant players in classify
 This model does more than predict ratings—it provides a lens to interpret the many forces that shape a film’s reception. By analyzing features ranging from representation and timing to financial metrics and thematic elements, we bridge the gap between quantitative data and the subjective experience of moviegoers. The insights in preparing our Random Forest classifier for movie ratings can therefore empower filmmakers, critics, and audiences alike to appreciate cinema not just as entertainment but as a reflection of societal values and cultural trends.
 
 
-<iframe src ="{{ '/assets/plots/in-out.html' | relative_url }}" style = "height:100vh; width: 100%; border:none;"> </iframe>
 
 
 
