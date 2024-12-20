@@ -33,7 +33,7 @@
 </div>
 
 <script>
-    const baseUrl = "{{ '/assets/plots/map/map-' | absolute_url }}";
+    const baseUrl = "{{ '/assets/plots/map/map-' | relative_url }}";
     // Event listener for genre selection
     document.getElementById('genreSelect').addEventListener('change', function() {
         const selectedGenre = this.value;
