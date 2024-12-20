@@ -4,7 +4,7 @@ description: "Modeling Movie Ratings with Multidimensional Features"
 button: Discover our data story!
 ---
 
-*Movies offer more than entertainment as they are reflections of societal trends and cultural shifts. This project investigates the key features influencing movie ratings, focusing on attributes like release date, country of production, and innovative metrics such as historical proximity scores and Shannon Diversity Indices for ethnicity and gender. We demonstrate that ratings vary significantly across regions and genres, supported by ANOVA and Kruskal-Wallis tests, with notable exceptions being that documentaries and romantic comedies fail to disprove ratings across regions in these genres vary to a statistically significant degree. Temporal trends also reveal significant variations in ratings, though release date alone proves insufficient as a predictive feature, leading to the development of enhanced attributes for analysis. Using a Random Forest model that ensembles 100 individual decision trees, trained on an 80-20 data split and cross-validated with 10 folds, our approach achieves a mean accuracy of 75.26% in predicting movie ratings. Feature importance analysis highlights release date as the most influential predictor, with a Gini Importance score of 0.2456. This model captures the dynamic evolution of movie ratings and offers a reliable framework for analyzing unlabelled films, providing valuable insights into how genre, region, and time shape audience perceptions.*
+*Ever wondered why some movies become timeless classics while others fade into obscurity? Movies are more than just entertainment: they’re windows into our cultures, trends, and shifting societal values. We dove deep into the factors that shape how movies are rated, uncovering fascinating patterns along the way. From where a movie is made to when it’s released, we found that ratings reflect so much more than just how much people liked the film. For example, movies from different countries and genres show unique rating patterns; although surprisingly, documentaries and romantic comedies seem to break the mold! Time also plays a huge role. While older films might conjure nostalgia, we found that a movie’s release date alone doesn’t tell the whole story of its success. So, we developed innovative ways to dig deeper, like measuring how diverse a cast is (in terms of gender and ethnicity) and even how closely connected a movie is to big historical moments. Using a powerful Random Forest model – think of it as a team of 100 decision-making "movie critics" – we trained our system to predict ratings with 76.4% accuracy. What stood out most? Release dates topped the list as the most important factor, but it was clear that a film’s number of actors, runtime, region and genre also shape how audiences perceive it. In short, our project doesn’t just crunch numbers, but moreover tells the evolving story of how movies resonate with audiences over time, across borders, and through different cultural lenses. And who knows? Maybe it even offers a sneak peek into what makes a movie a future favorite for the crowd.*
 
 
 # The Good, the Bad, and… you guessed it, the Wrangled
@@ -48,7 +48,7 @@ The journey into understanding movie ratings begins with a global exploration by
 
 Beyond geography, movie ratings are clearly tied to the year of their release. Examining a global race of the frequency of movie production across the top 20 genres reveals fascinating trends in line with this observation of ratings.
 
-<iframe src="{{ '/assets/plots/bar-race.html' | relative_url }}"  style=" height: 100vh; width: 100%; border: none;"></iframe> 
+<iframe src="{{ '/assets/plots/bar-race.html' | relative_url }}"  style=" height: 630px; width: 100%; border: none;"></iframe> 
 
 Some genres, like drama, show a steady increase in production over time, perhaps saturating audiences and dampening enthusiasm for similar movies. To explore each genre’s dynamic of production, the below histograms provide further insight into some genres, like comedy, romance, action, and mystery, having bimodal production pattern. Peaks emerged prominently between the 1990s and 2000s, coinciding with the technological revolution and the rise of digital media. Another notable peak appears in the 1920s, often associated with the film industry’s resurgence during the post-WWI “Roaring Twenties.” These dual peaks suggest that historical and technological contexts play a crucial role in shaping production trends, which in turn impact ratings. This temporal variation underscores the importance of release dates when analyzing movie ratings, setting the stage for further exploration into time as a key factor in audience reception.
 
@@ -64,7 +64,7 @@ Having a basic intuition of movie ratings being dynamic and spatially variable, 
 <p>
 Having established that movie production depends on both region of production and release date, we now turn our attention to another vital variable: genre. The heat map below presents the distribution of ratings for the top 20 genres, grouped into bins for easier visualization. This approach allows us to clearly observe differences in public perception and reception across genres. 
 </p>
-<iframe src ="{{ '/assets/plots/heatmap-ratings.html' | relative_url }}" style= " height: 100vh; width: 100%; border:none;"> </iframe>
+<iframe src ="{{ '/assets/plots/heatmap-ratings.html' | relative_url }}" style= " height: 630px; width: 100%; border:none;"> </iframe>
 <p>
 While many genres like action and black-and-white films show their highest rating counts in the 6.5-7 bin, other genres deviate significantly. Documentary and world cinema films, which stand out as the most non-fictional genres in the top 20 our analysis considers, dominate higher rating bins: documentaries peak in the 7.5-8 range, while world cinema leads in the 7-7.5 bin. Conversely, genres known for their polarizing nature, such as horror and thriller, show distributions skewed toward lower rating bins, reflecting divided audience opinions.
 </p>
@@ -132,7 +132,7 @@ We began by looking at the distribution of the number of actor’s in a movie an
 To further inspect actor characteristics in movies, we move onto considering the demographics of their casts. By enriching the provided character data, we managed to populate 77.17% of our movie’s characters, and thereby actors, data with nationalities and ethnicities. Analyzing the former first, we sought to understand if regions typically cast from their own talent pool as to indicate if movies from those regions are diverse for actor cultural backgrounds.
 
 </p>
-<iframe src ="{{ '/assets/plots/in-out.html' | relative_url }}" style = "height:100vh; width: 100%; border:none;"> </iframe>
+<iframe src ="{{ '/assets/plots/in-out.html' | relative_url }}" style = "height:630px; width: 100%; border:none;"> </iframe>
 
 <p>
 From the above visualization, we can see that most regions show a strong preference for in-region talent. In fact, Asia, India, and Eastern Europe favor local actors overwhelmingly, with over 90% of their casts being from the same region. Even North America, known for Hollywood's global reach, leans toward in-region actors, though not as strongly. Compare this to Bollywood, which remains almost exclusively centered on Indian actors, emphasizing its cultural specificity/target audience. This preference for in-region talent could impact movie ratings as audience's may be influenced by their cultural and regional connection and favoritism to the cast. However, in-region casting alone is not a strong predictor for movie ratings, and a more granular approach with ethnicities is employed.
@@ -141,12 +141,12 @@ From the above visualization, we can see that most regions show a strong prefere
 The ethnicities we were able to populate of our movies’ actors can be categorized into cultural groups: North Americans, Oceanians, Native Americans, West and East Europeans, Indians, Remaining Asia, South Americans, North Africans and Middle Easterns. This clustering reflects not only geographical boundaries but also the cultural and historical dynamics that shape the cinematic landscape.
 </p>
 
-<iframe src ="{{ '/assets/plots/ethnic-percentages.html' | relative_url }}" style = "height:100vh; width: 100%; border:none;"> </iframe>
+<iframe src ="{{ '/assets/plots/ethnic-percentages.html' | relative_url }}" style = "height:630px; width: 100%; border:none;"> </iframe>
 
 Taking a closer look at ethnicities within regions, a first observation is the widespread presence of Western Europeans and North Americans across other regions, appearing in nearly every region’s movies by over 1% of all ethnicities except in India. Another striking pattern is that the most dominant ethnicities per region is almost always that of the region. That being said, the size of this in-region ethnicity component varies per region, leading us to conclude that a movie irrespective of their region of production may be composed of numerous actor ethnicities. Some metric to represent this ethnic diversity is required, but before we reveal what that score is, let’s briefly turn to the actor genders.
 
 
-<iframe src ="{{ '/assets/plots/pie-chart.html' | relative_url }}" style = "height:100vh; width: 100%; border:none;"> </iframe>
+<iframe src ="{{ '/assets/plots/pie-chart.html' | relative_url }}" style = "height:630px; width: 100%; border:none;"> </iframe>
 
 The above dynamic pie chart demonstrates that the gender proportions per movie are far from balanced. Male actors have almost always dominated the stage at a consistent rate, and so we also need to capture the gender diversity of a movie to properly reflect the movie’s characteristics.
 
@@ -163,13 +163,13 @@ To finally return these metrics back to our mission of rating predictions, we te
 
 In a final consideration of diversity as a predictor of movie ratings, we focused on the number of spoken languages in movies. By retrieving a movie’s number of spoken languages, we were surprised to find a clear clustering of multilingual films around higher audience ratings. Notably, Sicilian and Haryanvi languages correspond to the highest ratings, defying conventional expectations. Regression analysis over average movie ratings and number of spoken languages revealed a weak yet positive correlation between the two. To indicate if multilingual films resonate more with audiences, we finally split the movies into high (above 15) and low multilinguality groups and compared their average ratings with an ANOVA test. This revealed a significant p-value of 0.0174, leading us to include spoken language count as a feature in our final predictive model.
 
-<iframe src ="{{ '/assets/plots/languages.html' | relative_url }}" style = "height:100vh; width: 100%; border:none;"> </iframe>
+<iframe src ="{{ '/assets/plots/languages.html' | relative_url }}" style = "height:630px; width: 100%; border:none;"> </iframe>
 
 # Two Final Scores as Rating Predictive Features
 
 To further uncover the nuanced factors influencing movie ratings, we crafted a novel feature: the Historical Proximity Score. This artificial feature assigns a value between -1 and 1 to each movie, based on the temporal closeness of its release to the closest historically significant event in the production region’s history. Given the global scale of our analysis, each event considered cannot be listed here, however, these events generally classify as being wars and conflicts, political transformations, economic events, social and cultural milestones, or international relations and treaties. A magnitude close to 1 signifies a movie released during the same year as such an event, while this value linearly falls off over a five-year period from the date of occurrence to a movie’s release date. A sign is then given to the score based on if the event is considered positive or negative. By integrating this feature, we aim to investigate whether the weight of history leaves its mark on audience perception.
 
-<iframe src ="{{ '/assets/plots/historical-events.html' | relative_url }}" style = "height:100vh; width: 100%; border:none;"> </iframe>
+<iframe src ="{{ '/assets/plots/historical-events.html' | relative_url }}" style = "height:630px; width: 100%; border:none;"> </iframe>
 
 The final feature that we included for predicting a movie’s characteristics to predict its audience ratings was a movie’s Genre Complexity Score. This feature quantifies the intricacy of a movie’s genre composition, assigning a score equal to the number of genres it spans from our top 20 list of genres considered. A straightforward single-genre film earns the baseline score of 1, while a genre-blending epic boasting 10 genres achieves the maximum score of 10. Like so, we aim to include the richness of a movie’s genre and its influences on audiences.
 
@@ -189,7 +189,7 @@ An 80-20 train-test split was used to divide the data into training and testing 
 
 ## Feature Importances: Unveiling the Stars 
 
-<iframe src ="{{ '/assets/plots/features.html' | relative_url }}" style = "height:100vh; width: 100%; border:none;"> </iframe>
+<iframe src ="{{ '/assets/plots/features.html' | relative_url }}" style = "height:630px; width: 100%; border:none;"> </iframe>
 
 <p>
 One of the Random Forest’s strengths lies in its ability to reveal feature importances by the information each contains at separating movies into their rating classes. In taking these information importances, we are able to rank our analyzed features at their predictive power on movie average ratings. In 1st place is the movie release date! The movie's release date is the most informative predictor of a movie's rating, emphasizing the cultural and temporal relevance of films.This also reinforces our early intuition that temporal insights, though initially considered alone, can gain decisive predictive power when strategically combined with the right features. In 2nd place, and slightly surprisingly, is the number of actors in a movie. This aligns well with our initial actor-based analysis, reaffirming a significant yet likely non-linear relationship between the number of actors and movie ratings. This conclusion reinforces the appeal of star-studded casts in a movie, polarizing audience ratings and hence providing clear distinction between a movie's rating class based on the number of actors involved. Then in 3rd and final spot of our podium of ranking is the film runtime. This demonstrates that the pacing of movies is critical in dividing a movie between achieving one rating over another. A movie’s length, therefore, is a crucial factor in shaping audience engagement.
