@@ -1,119 +1,129 @@
-<div>
-    <label for="genre-select">Select Genres:</label>
-    <select id="genre-select" multiple>
-       
-    </select>
-</div>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Distribution</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div>
+        <label for="genre-select">Select Genres:</label>
+        <select id="genre-select" multiple></select>
+    </div>
 
-<div id="plot-container" style="width: 100%; height: 600px;"></div>
-
-<script>
-    // Fetch the preprocessed data from the JSON file
-    fetch("{{ '/assets/js/plots/movie_data.json' | relative_url }}")
-        .then(response => response.json())
-        .then(data => {
-            // Filter the data by genres of interest
-            const selectedGenres = [
-                'drama', 'comedy', 'thriller', 'romance', 'world cinema', 
-                'action', 'crime fiction', 'indie', 'action/adventure', 'adventure'
-            ];
-
-            // Filter data to include only selected genres
-            const filteredData = data.filter(item => selectedGenres.includes(item.Genre.toLowerCase()));
-
-            // Process data for Plotly
-            initializeDropdown(filteredData);
-        });
-
-    // Initialize the genre dropdown with available genres
-    function initializeDropdown(data) {
-        const genresTop = [...new Set(data.map(item => item.Genre))];
-        const genreSelect = document.getElementById("genre-select");
-
-        genresTop.forEach(genre => {
-            const option = document.createElement("option");
-            option.value = genre;
-            option.textContent = genre;
-            genreSelect.appendChild(option);
-        });
-
-        // Set up an event listener for dropdown selection
-        genreSelect.addEventListener("change", function () {
-            const selectedGenres = Array.from(genreSelect.selectedOptions).map(option => option.value);
-            plotSelectedGenres(selectedGenres, data);
-        });
-
-        // Trigger plot when page loads (with the first genre selected)
-        plotSelectedGenres([genresTop[0]], data);
-    }
-
-    // Plot the selected genres' histograms
-    function plotSelectedGenres(selectedGenres, data) {
-        // Prepare data for the plot
-        const plotData = selectedGenres.map(genre => {
-            // Filter the data for the current genre
-            const genreMovies = data.filter(item => item.Genre === genre);
+    <div id="plot-container" style="width: 100%; height: 600px;"></div>
+    <script>
+        // Fetch the preprocessed data from the JSON file
+        fetch("{{ '/assets/js/plots/movie_data.json' | relative_url }}")
+            .then(response => response.json())
+            .then(data => {
+                // Filter the data by genres of interest
+                const selectedGenres = [
+                    'drama', 'comedy', 'thriller', 'romance', 'world cinema', 
+                    'action', 'crime fiction', 'indie', 'action/adventure', 'adventure'
+                ];
+    
+                // Filter data to include only selected genres
+                const filteredData = data.filter(item => selectedGenres.includes(item.Genre.toLowerCase()));
+    
+                // Process data for Plotly
+                initializeDropdown(filteredData);
+            });
+    
+        // Initialize the genre dropdown with available genres
+        function initializeDropdown(data) {
+            const genresTop = [...new Set(data.map(item => item.Genre))];
+            const genreSelect = document.getElementById("genre-select");
+    
+            genresTop.forEach(genre => {
+                const option = document.createElement("option");
+                option.value = genre;
+                option.textContent = genre;
+                genreSelect.appendChild(option);
+            });
+    
+            // Set up an event listener for dropdown selection
+            genreSelect.addEventListener("change", function () {
+                const selectedGenres = Array.from(genreSelect.selectedOptions).map(option => option.value);
+                plotSelectedGenres(selectedGenres, data);
+            });
+    
+            // Trigger plot when page loads (with the first genre selected)
+            plotSelectedGenres([genresTop[0]], data);
+        }
+    
+        // Plot the selected genres' histograms
+        function plotSelectedGenres(selectedGenres, data) {
+            // Prepare data for the plot
+            const plotData = selectedGenres.map(genre => {
+                // Filter the data for the current genre
+                const genreMovies = data.filter(item => item.Genre === genre);
+                
+                // Get the release years 
+                const releaseYears = genreMovies.map(item => item.ReleaseDate);  
+                
+                return {
+                    type: 'histogram',
+                    x: releaseYears,
+                    name: genre,  
+                    histnorm: 'count',
+                    opacity: 0.7,
+                    marker: {
+                        color: getColorForGenre(genre),
+                        line: { width: 1, color: 'black' }
+                    },
+                    nbinsx: 30, 
+                    autobiny: true
+                };
+            });
+    
             
-            // Get the release years 
-            const releaseYears = genreMovies.map(item => item.ReleaseDate);  
-            
-            return {
-                type: 'histogram',
-                x: releaseYears,
-                name: genre,  
-                histnorm: 'count',
-                opacity: 0.7,
-                marker: {
-                    color: getColorForGenre(genre),
-                    line: { width: 1, color: 'black' }
+            // Layout configuration
+            const layout = {
+                title: "Movies Distribution by Release Date",
+                barmode: "overlay",
+                xaxis: {
+                    title: "Year of Production",
+                    showgrid: true,
+                    tickmode: 'array', 
+                    tickvals: [1900, 1920, 1940, 1960, 1980, 2000], 
+                    ticktext: ['1900', '1920', '1940', '1960', '1980', '2000'], 
+                    range: [1900, 2020], 
                 },
-                nbinsx: 30, 
-                autobiny: true
+                yaxis: {
+                    title: "Number of Movies Produced",
+                    showgrid: true
+                },
+                template: "plotly_white",
+                height: 600,
+                margin: { t: 50, b: 50, l: 50, r: 50 },
+                showlegend: true
             };
-        });
+    
+            // Plot the data using Plotly
+            Plotly.newPlot("plot-container", plotData, layout);
+        }
+    
+        // Custom color palette for genres
+        function getColorForGenre(genre) {
+            const customPalette = {
+                "drama": "#9dcee2",
+                "comedy": "#4091c9",
+                "thriller": "#ef3c2d",
+                "romance": "#f29479",
+                "world cinema": "#fedfd4",
+                "action": "#033270",
+                "crime fiction": "#1368aa",
+                "indie": "#f26a4f",
+                "action/adventure": "#65010c",
+                "adventure": "#cb1b16"
+            };
+    
+            return customPalette[genre] || "gray"; 
+        }
+    </script>
+    
+</body>
+</html>
 
-        
-        // Layout configuration
-        const layout = {
-            title: "Movies Distribution by Release Date",
-            barmode: "overlay",
-            xaxis: {
-                title: "Year of Production",
-                showgrid: true,
-                tickmode: 'array', 
-                tickvals: [1900, 1920, 1940, 1960, 1980, 2000], 
-                ticktext: ['1900', '1920', '1940', '1960', '1980', '2000'], 
-                range: [1900, 2020], 
-            },
-            yaxis: {
-                title: "Number of Movies Produced",
-                showgrid: true
-            },
-            template: "plotly_white",
-            height: 600,
-            margin: { t: 50, b: 50, l: 50, r: 50 },
-            showlegend: true
-        };
 
-        // Plot the data using Plotly
-        Plotly.newPlot("plot-container", plotData, layout);
-    }
 
-    // Custom color palette for genres
-    function getColorForGenre(genre) {
-        const customPalette = {
-            "drama": "#9dcee2",
-            "comedy": "#4091c9",
-            "thriller": "#ef3c2d",
-            "romance": "#f29479",
-            "world cinema": "#fedfd4",
-            "action": "#033270",
-            "crime fiction": "#1368aa",
-            "indie": "#f26a4f",
-            "action/adventure": "#65010c",
-            "adventure": "#cb1b16"
-        };
-
-        return customPalette[genre] || "gray"; 
-    }
-</script>
