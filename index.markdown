@@ -92,3 +92,5 @@ Beyond geography, movie ratings are clearly tied to the year of their release. E
 </div>
 
 {% include_relative assets/plots/average-rating-line.html %}
+
+<iframe src ="{{ '/assets/plots/features.html' | relative_url }}" style = "height:105vh; width: 100%; border:none;"> </iframe>

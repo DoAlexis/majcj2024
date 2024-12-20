@@ -121,11 +121,11 @@
                 return;
             }
 
-            const firstRegionData = meanRatingsRegionsGenre[regionPairKey][0][0]; 
-            const secondRegionData = meanRatingsRegionsGenre[regionPairKey][0][1]; 
+            const firstRegionData = meanRatingsRegionsGenre[regionPairKey] ? meanRatingsRegionsGenre[regionPairKey][0][0] : null;
+            const secondRegionData = meanRatingsRegionsGenre[regionPairKey] ? meanRatingsRegionsGenre[regionPairKey][0][1] : null;
 
-            const firstRegionConfIntervals = confidenceIntervalsRegionsGenre[regionPairKey][0][0]; 
-            const secondRegionConfIntervals = confidenceIntervalsRegionsGenre[regionPairKey][0][1];
+            const firstRegionConfIntervals = confidenceIntervalsRegionsGenre[regionPairKey] ? confidenceIntervalsRegionsGenre[regionPairKey][0][0] : null;
+            const secondRegionConfIntervals = confidenceIntervalsRegionsGenre[regionPairKey] ? confidenceIntervalsRegionsGenre[regionPairKey][0][1] : null;
 
             console.log('First Region Data:', firstRegionData);
             console.log('Second Region Data:', secondRegionData);
@@ -133,51 +133,64 @@
             console.log('Second Region Confidence Intervals:', secondRegionConfIntervals);
 
             const decades = data.decades;  
-           
+
+            // Filter out 0 values from firstRegionData and corresponding decades
+            const filteredFirstRegionData = firstRegionData && firstRegionData.map((value, index) => value !== 0 ? { y: value, x: decades[index], conf: firstRegionConfIntervals[index] } : null).filter(item => item !== null);
+            const filteredSecondRegionData = secondRegionData && secondRegionData.map((value, index) => value !== 0 ? { y: value, x: decades[index], conf: secondRegionConfIntervals[index] } : null).filter(item => item !== null);
+
+            console.log('Filtered First Region Data:', filteredFirstRegionData);
+            console.log('Filtered Second Region Data:', filteredSecondRegionData);
+
             // Prepare the data for Plotly
             const plotData = [];
 
-            // Add data for the first region
-            plotData.push({
-                type: 'scatter',
-                x: decades,
-                y: firstRegionData,
-                mode: 'lines+markers',
-                name: `${selectedGenre} - ${firstRegion}`,
-                line: { color: 'blue' },
-                error_y: { type: 'data', array: firstRegionConfIntervals, visible: true }
-            });
+            // Add data for the first region, only if filtered data exists
+            if (filteredFirstRegionData.length > 0) {
+                plotData.push({
+                    type: 'scatter',
+                    x: filteredFirstRegionData.map(item => item.x), 
+                    y: filteredFirstRegionData.map(item => item.y), 
+                    mode: 'lines+markers',
+                    name: `${selectedGenre} - ${firstRegion}`,
+                    line: { color: 'blue' },
+                    error_y: { type: 'data', array: filteredFirstRegionData.map(item => item.conf), visible: true } 
+                });
+            }
 
-            // Add data for the second region
-            plotData.push({
-                type: 'scatter',
-                x: decades,
-                y: secondRegionData,
-                mode: 'lines+markers',
-                name: `${selectedGenre} - ${secondRegion}`,
-                line: { color: 'lightgreen' },
-                error_y: { type: 'data', array: secondRegionConfIntervals, visible: true }
-            });
+            // Add data for the second region, only if filtered data exists
+            if (filteredSecondRegionData.length > 0) {
+                plotData.push({
+                    type: 'scatter',
+                    x: filteredSecondRegionData.map(item => item.x), 
+                    y: filteredSecondRegionData.map(item => item.y), 
+                    mode: 'lines+markers',
+                    name: `${selectedGenre} - ${secondRegion}`,
+                    line: { color: 'lightgreen' },
+                    error_y: { type: 'data', array: filteredSecondRegionData.map(item => item.conf), visible: true } 
+                });
+            }
 
-            // Layout configuration
-            const layout = {
-                title: `${selectedGenre} - Average Rating Evolution by Region`,
-                xaxis: {
-                    title: 'Decade',
-                    tickvals: [1950, 1960, 1970, 1980, 1990, 2000],  
-                    ticktext: decades,
-                },
-                yaxis: {
-                    title: 'Average Rating',
-                    rangemode: 'normal'
-                },
-                showlegend: true
-            };
+            console.log('Plot Data Prepared:', plotData);
 
-            console.log('Plot data prepared, calling Plotly.newPlot...');
+            // Plot the data if there's any data to plot
+            if (plotData.length > 0) {
+                Plotly.newPlot('chart-container', plotData, {
+                    title: `${selectedGenre} - Average Rating Evolution by Region`,
+                    xaxis: {
+                        title: 'Decade',
+                        tickvals: [1950, 1960, 1970, 1980, 1990, 2000],  
+                        ticktext: decades,
+                    },
+                    yaxis: {
+                        title: 'Average Rating',
+                        rangemode: 'normal'
+                    },
+                    showlegend: true
+                });
+            } else {
+                console.log('No data available for this region pair.');
+            }
 
-            // Plot the data using Plotly
-            Plotly.newPlot('chart-container', plotData, layout);
         }
     </script>
 </body>
