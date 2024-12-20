@@ -1,0 +1,187 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Distribution by Genre and Region</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div>
+        <label for="genre-dropdown">Select Genre:</label>
+        <select id="genre-dropdown">
+            <!-- Genre options will be dynamically populated -->
+        </select>
+    </div>
+
+    <div>
+        <label for="region-dropdown1">Select First Region:</label>
+        <select id="region-dropdown1">
+            <!-- Region options will be dynamically populated -->
+        </select>
+    </div>
+
+    <div>
+        <label for="region-dropdown2">Select Second Region:</label>
+        <select id="region-dropdown2">
+            <!-- Region options will be dynamically populated -->
+        </select>
+    </div>
+
+    <div id="chart-container" style="width: 100%; height: 600px;"></div>
+
+    <script>
+        // Fetch data from the JSON file
+        fetch("{{ '/assets/js/plots/evolution_data.json' | relative_url }}")
+            .then(response => response.json())
+            .then(data => {
+
+                const genres = data.genres;
+                const regions = data.regions;  
+                const decades = data.decades;  
+
+                // Populate genre dropdown
+                const genreDropdown = document.getElementById("genre-dropdown");
+                genres.forEach(genre => {
+                    const option = document.createElement("option");
+                    option.value = genre;
+                    option.textContent = genre;
+                    genreDropdown.appendChild(option);
+                });
+
+                // Populate region dropdowns
+                const regionDropdown1 = document.getElementById("region-dropdown1");
+                const regionDropdown2 = document.getElementById("region-dropdown2");
+                regions.forEach(region => {
+                    const option1 = document.createElement("option");
+                    option1.value = region;
+                    option1.textContent = region;
+                    regionDropdown1.appendChild(option1);
+
+                    const option2 = document.createElement("option");
+                    option2.value = region;
+                    option2.textContent = region;
+                    regionDropdown2.appendChild(option2);
+                });
+                console.log('Regions populated in dropdowns:', regions);  
+
+                // Initial dropdown selection (trigger initial plot)
+                const selectedGenre = genres[0]; 
+                const selectedRegion1 = regions[0];  
+                const selectedRegion2 = regions[0];  
+                console.log('Initial selections - Genre:', selectedGenre, 'Region 1:', selectedRegion1, 'Region 2:', selectedRegion2);
+
+                // Trigger initial plot
+                plotSelectedGenresRegions(selectedGenre, selectedRegion1, selectedRegion2, data);
+
+                // Event listener for dropdown change
+                genreDropdown.addEventListener("change", function () {
+                    const selectedGenre = genreDropdown.value;
+                    const selectedRegion1 = regionDropdown1.value;
+                    const selectedRegion2 = regionDropdown2.value;
+                    console.log('Dropdown changed - Genre:', selectedGenre, 'Region 1:', selectedRegion1, 'Region 2:', selectedRegion2);
+                    plotSelectedGenresRegions(selectedGenre, selectedRegion1, selectedRegion2, data);
+                });
+
+                regionDropdown1.addEventListener("change", function () {
+                    const selectedGenre = genreDropdown.value;
+                    const selectedRegion1 = regionDropdown1.value;
+                    const selectedRegion2 = regionDropdown2.value;
+                    console.log('Dropdown changed - Genre:', selectedGenre, 'Region 1:', selectedRegion1, 'Region 2:', selectedRegion2);
+                    plotSelectedGenresRegions(selectedGenre, selectedRegion1, selectedRegion2, data);
+                });
+
+                regionDropdown2.addEventListener("change", function () {
+                    const selectedGenre = genreDropdown.value;
+                    const selectedRegion1 = regionDropdown1.value;
+                    const selectedRegion2 = regionDropdown2.value;
+                    console.log('Dropdown changed - Genre:', selectedGenre, 'Region 1:', selectedRegion1, 'Region 2:', selectedRegion2);
+                    plotSelectedGenresRegions(selectedGenre, selectedRegion1, selectedRegion2, data);
+                });
+            })
+            .catch(error => {
+                console.log('Error fetching data:', error);  
+            });
+
+        // Function to plot selected genre and regions
+        function plotSelectedGenresRegions(selectedGenre, firstRegion, secondRegion, data) {
+            console.log('Plotting data for Genre:', selectedGenre, 'Regions:', firstRegion, secondRegion);
+
+            // Extract the ratings and confidence intervals for the selected genre and regions
+            const meanRatingsRegionsGenre = data.meanRatings_regions_genre[selectedGenre];
+            const confidenceIntervalsRegionsGenre = data.confidenceIntervals_regions_genre[selectedGenre];
+            console.log('Mean Ratings for selected genre and regions:', meanRatingsRegionsGenre);
+            console.log('Confidence Intervals for selected genre and regions:', confidenceIntervalsRegionsGenre);
+
+              // Create the key for the region pair (same format as in JSON)
+            const regionPairKey = `('${firstRegion}', '${secondRegion}')`; 
+
+        
+            // Check if the region pair exists in the data
+            if (!meanRatingsRegionsGenre.hasOwnProperty(regionPairKey)) {
+                console.log(`Region pair ${regionPairKey} not found in meanRatingsRegionsGenre.`);
+                return;
+            }
+
+            const firstRegionData = meanRatingsRegionsGenre[regionPairKey][0][0]; 
+            const secondRegionData = meanRatingsRegionsGenre[regionPairKey][0][1]; 
+
+            const firstRegionConfIntervals = confidenceIntervalsRegionsGenre[regionPairKey][0][0]; 
+            const secondRegionConfIntervals = confidenceIntervalsRegionsGenre[regionPairKey][0][1];
+
+            console.log('First Region Data:', firstRegionData);
+            console.log('Second Region Data:', secondRegionData);
+            console.log('First Region Confidence Intervals:', firstRegionConfIntervals);
+            console.log('Second Region Confidence Intervals:', secondRegionConfIntervals);
+
+            const decades = data.decades;  
+           
+            // Prepare the data for Plotly
+            const plotData = [];
+
+            // Add data for the first region
+            plotData.push({
+                type: 'scatter',
+                x: decades,
+                y: firstRegionData,
+                mode: 'lines+markers',
+                name: `${selectedGenre} - ${firstRegion}`,
+                line: { color: 'blue' },
+                error_y: { type: 'data', array: firstRegionConfIntervals, visible: true }
+            });
+
+            // Add data for the second region
+            plotData.push({
+                type: 'scatter',
+                x: decades,
+                y: secondRegionData,
+                mode: 'lines+markers',
+                name: `${selectedGenre} - ${secondRegion}`,
+                line: { color: 'lightgreen' },
+                error_y: { type: 'data', array: secondRegionConfIntervals, visible: true }
+            });
+
+            // Layout configuration
+            const layout = {
+                title: `${selectedGenre} - Average Rating Evolution by Region`,
+                xaxis: {
+                    title: 'Decade',
+                    tickvals: [1950, 1960, 1970, 1980, 1990, 2000],  
+                    ticktext: decades,
+                },
+                yaxis: {
+                    title: 'Average Rating',
+                    rangemode: 'normal'
+                },
+                showlegend: true
+            };
+
+            console.log('Plot data prepared, calling Plotly.newPlot...');
+
+            // Plot the data using Plotly
+            Plotly.newPlot('chart-container', plotData, layout);
+        }
+    </script>
+</body>
+</html>
+
+
+
