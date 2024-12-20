@@ -46,14 +46,17 @@ The journey into understanding movie ratings begins with a global exploration by
 {% include_relative assets/plots/world-map.html %}
 
 
-Beyond geography, movie ratings are clearly tied to the year of their release. Examining the global frequency of movie production across the top 20 genres reveals fascinating trends in line with this observation of ratings. Some genres, like drama, show a steady increase in production over time, perhaps saturating audiences and dampening enthusiasm for similar movies. Yet many genres, including comedy, romance, action, and mystery, show a bimodal production pattern. Peaks emerged prominently between the 1990s and 2000s, coinciding with the technological revolution and the rise of digital media. Another notable peak appears in the 1920s, often associated with the film industry’s resurgence during the post-WWI “Roaring Twenties.” These dual peaks suggest that historical and technological contexts play a crucial role in shaping production trends, which in turn impact ratings. This temporal variation underscores the importance of release dates when analyzing movie ratings, setting the stage for further exploration into time as a key factor in audience reception.
+Beyond geography, movie ratings are clearly tied to the year of their release. Examining a global race of the frequency of movie production across the top 20 genres reveals fascinating trends in line with this observation of ratings.
 
 <iframe src="{{ '/assets/plots/bar-race.html' | relative_url }}"  style=" height: 100vh; width: 100%; border: none;"></iframe> 
 
+Some genres, like drama, show a steady increase in production over time, perhaps saturating audiences and dampening enthusiasm for similar movies. To explore each genre’s dynamic of production, the below histograms provide further insight into some genres, like comedy, romance, action, and mystery, having bimodal production pattern. Peaks emerged prominently between the 1990s and 2000s, coinciding with the technological revolution and the rise of digital media. Another notable peak appears in the 1920s, often associated with the film industry’s resurgence during the post-WWI “Roaring Twenties.” These dual peaks suggest that historical and technological contexts play a crucial role in shaping production trends, which in turn impact ratings. This temporal variation underscores the importance of release dates when analyzing movie ratings, setting the stage for further exploration into time as a key factor in audience reception.
+
+
+{% include_relative assets/plots/movie-distribution.html %}
 
 Having a basic intuition of movie ratings being dynamic and spatially variable, what happens when we merge geography and time in our preliminary analysis? The production frequency of movies over time, segmented by region, unveils yet another layer of complexity. This plot allows us to see how the output of different genres varies by country and time, which may reveal region specific time evolutions of ratings. Take drama movies as a case study: globally, the genre exhibits a steady increase in production. Yet, within the United Kingdom, drama production follows a strikingly different pattern, with clear peaks and troughs mirroring a bimodal distribution that hints at regional uniqueness. This contrast emphasizes how production trends differ locally from global norms, demonstrating the need to consider both regional and temporal dimensions when analyzing movies. Recognizing these patterns is essential, as regional differences in production frequency likely influence ratings and audience reception. By accounting for these regional and temporal impacts, we gain a more nuanced understanding of the global film landscape and its intricate relationship with ratings.
 
-{% include_relative assets/plots/movie-distribution.html %}
 
 # Movies Ratings by Genre: A Deeper Dive
 
@@ -173,6 +176,7 @@ The final feature that we included for predicting a movie’s characteristics to
 
 # The Final Predictor
 
+## Our Random Forest
 <p>
 Having considered features with identifiable differences in their values on ratings, as well as composing unique features for movies, we can finally uncover the hidden dynamics between movie characteristics and audience ratings using a Random Forest classification model. Drawing from the carefully curated dataset, we trained a model to predict binned movie ratings, a rounded, categorized version of the IMDb average audience ratings. This 0.5 increment rating value is our model’s target variable, representing a simplified metric of audience ratings that allows for clearer classification.
 </p>
@@ -183,7 +187,7 @@ The Random Forest Classifier is a robust and interpretable ensemble method for s
 An 80-20 train-test split was used to divide the data into training and testing subsets. The Random Forest is then trained on 58,430 samples, fine-tuning its predictive capabilities through ten-fold cross-validation. This step not only validates the model’s performance but also ensures resilience to overfitting. Despite challenges like imbalanced data, the model achieves a solid mean cross-validation score of 75.26% and an accuracy of 76.4% on unseen test data, a testament to its reliability.
 </p>
 
-# Feature Importances: Unveiling the Stars 
+## Feature Importances: Unveiling the Stars 
 
 <iframe src ="{{ '/assets/plots/features.html' | relative_url }}" style = "height:100vh; width: 100%; border:none;"> </iframe>
 
