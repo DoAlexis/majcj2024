@@ -42,6 +42,8 @@ demographics?
 
 {% include_relative assets/plots/movie-distribution-all.html %}
 
+Beyond geography, movie ratings are clearly tied to the year of their release. Examining the global frequency of movie production across the top 20 genres reveals fascinating trends in line with this observation of ratings. Some genres, like drama, show a steady increase in production over time, perhaps saturating audiences and dampening enthusiasm for similar movies. Yet many genres, including comedy, romance, action, and mystery, show a bimodal production pattern. Peaks emerged prominently between the 1990s and 2000s, coinciding with the technological revolution and the rise of digital media. Another notable peak appears in the 1920s, often associated with the film industry’s resurgence during the post-WWI “Roaring Twenties.” These dual peaks suggest that historical and technological contexts play a crucial role in shaping production trends, which in turn impact ratings. This temporal variation underscores the importance of release dates when analyzing movie ratings, setting the stage for further exploration into time as a key factor in audience reception.
+
 ## The Movie distribution 2
 
 {% include_relative assets/plots/movie-distribution.html %}
@@ -63,3 +65,31 @@ demographics?
 <iframe src ="{{ '/assets/plots/languages.html' | relative_url }}" style = "height:105vh; width: 100%; border:none;"> </iframe>
 
 <iframe src ="{{ '/assets/plots/historical-events.html' | relative_url }}" style = "height:105vh; width: 100%; border:none;"> </iframe>
+
+<iframe src ="{{ '/assets/plots/pie-chart.html' | relative_url }}" style = "height:105vh; width: 100%; border:none;"> </iframe>
+
+<iframe src ="{{ '/assets/plots/genres-dist-rating.html' | relative_url }}" style = "height:105vh; width: 100%; border:none;"> </iframe>
+
+
+<div style="display: flex; align-items: flex-start; gap: 20px;">
+
+  <!-- Left Column: Text Content -->
+  <div style="flex: 1; text-align: left;">
+    <p>
+      Beyond geography, movie ratings are clearly tied to the year of their release. Examining the global frequency of movie production across the top 20 genres reveals fascinating trends in line with this observation of ratings. Some genres, like drama, show a steady increase in production over time, perhaps saturating audiences and dampening enthusiasm for similar movies. Yet many genres, including comedy, romance, action, and mystery, show a bimodal production pattern. Peaks emerged prominently between the 1990s and 2000s, coinciding with the technological revolution and the rise of digital media. Another notable peak appears in the 1920s, often associated with the film industry’s resurgence during the post-WWI “Roaring Twenties.” These dual peaks suggest that historical and technological contexts play a crucial role in shaping production trends, which in turn impact ratings. This temporal variation underscores the importance of release dates when analyzing movie ratings, setting the stage for further exploration into time as a key factor in audience reception.
+    </p>
+  </div>
+
+  <!-- Right Column: Images or Embedded Content -->
+  <div style="flex: 1; display: flex; flex-direction: column; gap: 20px;">
+    <div>
+      <h3>The Movie Distribution 2</h3>
+      <iframe src="{{ '/assets/plots/movie-distribution.html' | relative_url }}" style="height: 55vh; width: 100%; border: none;"></iframe>
+    </div>
+    <div>
+      <h3>The Movie Race</h3>
+      <iframe src="{{ '/assets/plots/bar-race.html' | relative_url }}" style="height: 55vh; width: 100%; border: none;"></iframe>
+    </div>
+  </div>
+
+</div>
