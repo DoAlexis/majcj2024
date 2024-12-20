@@ -1,5 +1,12 @@
 ---
 ---
+// Override theme color variables
+
+$header-bg-color: #25549A; 
+$header-bg-color-secondary: #84B2D4;
+$section-headings-color: #25549A; 
+$body-link-color: #84B2D4; 
+$blockquote-text-color: #84B2D4; 
 
 @import "{{ site.theme }}";
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
@@ -16,7 +23,7 @@
     #progress-bar {
         height: 100%;
         width: 0;
-        background-color: #159957;
+        background-color: #25549A;
         transition: width 0.4s ease-out;
     }
 }
@@ -37,7 +44,7 @@
         overflow: hidden;
 
         .background {
-            height: 110%;
+            height: 120%;
             width: 110%;
             position: absolute;
             top: -5%;
@@ -88,11 +95,11 @@
         }
 
         & #discover-button {
-            background-color: rgba(39, 161, 97, 0.9);
+            background-color: #84B2D4;
             color: #fff;
 
             &:hover {
-                background-color: rgba(6, 147, 74, 0.4);
+                background-color: #25549A;
             }
         }
     }
@@ -101,22 +108,34 @@
         position: fixed;
         bottom: 0;
         left: 50%;
-        width: 20px;
-        height: 20px;
-        background-color: rgba(246, 200, 48, 0.5);
-        border-radius: 50%;
-        opacity: 0;
-        animation: floatUp .5s forwards;
+        width: 10px;
+        height: 10px;
+        background-color: rgba(255, 215, 0, 0.8); 
+        clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); /* Star shape */
+        opacity: 1; 
+        animation: fallDown 3s ease-out forwards, spin 2s infinite linear;
+        z-index: 9999; 
     }
-
-    @keyframes floatUp {
+    
+    @keyframes fallDown {
         0% {
-            bottom: 0;
+            transform: translateX(-50%) rotate(0deg);
             opacity: 1;
+            bottom: 0;
         }
         100% {
-            bottom: 100%; /* Move to the top */
+            transform: translateX(calc(-50% + 100px)) rotate(720deg); 
             opacity: 0;
+            bottom: 100%; 
+        }
+    }
+    
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
         }
     }
 }
@@ -146,7 +165,7 @@ h1, h2, h3, h4 {
     align-items: center;
     padding: 40px 30px;
     color: #fff;
-    background-color: rgba(39, 161, 97, 0.9);
+    background-color: rgba(25, 43, 177, 0.9);
     text-align: center;
 
     h1, h2, h3 {
